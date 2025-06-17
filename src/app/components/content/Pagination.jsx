@@ -14,7 +14,7 @@ export default function Pagination({perPage, totalItem}) {
 		  <div className="flex items-center gap-x-1">
 		    {[...Array(totalPage)].map((_,i) => {
 		    	return i + 1 === currentPage ? (
-		    		<button type="button" key={i} class="min-h-9.5 min-w-9.5 flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500" aria-current="page">{i + 1}</button>
+		    		<button type="button" key={i} className="min-h-9.5 min-w-9.5 flex justify-center items-center bg-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-600 dark:text-white dark:focus:bg-neutral-500" aria-current="page">{i + 1}</button>
 		    	) : (
 		    		<button type="button" key={i} className="min-h-9.5 min-w-9.5 flex justify-center items-center text-gray-800 hover:bg-gray-100 py-2 px-3 text-sm rounded-lg focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10">{i + 1}</button>
 		    	)
