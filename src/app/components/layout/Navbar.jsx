@@ -2,11 +2,13 @@
 
 import Button from "@/app/components/layout/Button"
 import {useSearchParams} from "next/navigation"
+import {usePathname} from "next/navigation"
 import { Dropdown, DropdownItem } from "flowbite-react";
 
 export default function Navbar() {
 	const brand = "Mangap"
 	const searchParams = useSearchParams()
+	const pathname = usePathname()
 	const isLogin = searchParams.get("login")
 
 	return (
@@ -26,17 +28,18 @@ export default function Navbar() {
 		    </div>
 		    <div id="hs-navbar-example" className="hidden hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:block" aria-labelledby="hs-navbar-example-collapse">
 		      <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-		        <a className="font-medium text-blue-500 focus:outline-hidden" href="/" aria-current="page">Home</a>
-		        <a className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500" href="#">Search</a>
-		        <a className="font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500" href="#">Settings</a>
+		        <a className={pathname === '/' ? "font-medium text-blue-500 focus:outline-hidden" : "font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"} href="/" aria-current="page">Home</a>
+		        <a className={pathname === '/all-manga' ? "font-medium text-blue-500 focus:outline-hidden" : "font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"} href="/all-manga">Search</a>
 		        {!isLogin ? (
-		        	<button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-500 text-gray-500 hover:border-gray-800 hover:text-gray-800 focus:outline-hidden focus:border-gray-800 focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-400 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hover:border-neutral-300">
+		        	<button type="button" className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-500 text-gray-500 hover:border-gray-800 hover:text-gray-800 focus:outline-hidden focus:border-gray-800 focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-400 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hover:border-neutral-300">
 							  Login
 							</button>
 		        ): (
 		         <Dropdown label="Profile" inline className="font-medium text-netral-400 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500">
-				      <DropdownItem>Watchlist</DropdownItem>
-				      <DropdownItem>My Favourite</DropdownItem>
+				      <DropdownItem href="/profile/watchlist?login=true" className={pathname === "/profile/watchlist" ? "text-blue-500" : ""}>Watchlist</DropdownItem>
+				      <DropdownItem href="/profile/favourite?login=true" className={pathname === "/profile/favourite" ? "text-blue-500" : ""}>My Favourite</DropdownItem>
+				      <DropdownItem href="/profile/settings?login=true" className={pathname === "/profile/settings" ? "text-blue-500" : ""}>Settings</DropdownItem>
+				      <DropdownItem href="/">Logout</DropdownItem>
 				    </Dropdown>
 		        )}
 		      </div>

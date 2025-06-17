@@ -10,9 +10,6 @@ import popularManga from "@/app/data/popularManga"
 import newManga from "@/app/data/newManga"
 import genreManga from "@/app/data/genreManga"
 
-const yudiProfile = "https://my-profile-ten-kohl.vercel.app/"
-const titikProfile = "https://github.com/titik444/"
-
 export default function Home() {
   const [seri, setSeri] = useState(0)
   const perPage = 15
@@ -23,7 +20,7 @@ export default function Home() {
   }, [])
   return (
     <>
-    <div className="px-12 pt-12 pb-20 m-auto min-h-screen w-full bg-yellow-800">
+    <div className="px-12 pt-12 pb-20 m-auto min-h-screen w-full bg-neutral-200 dark:bg-yellow-800">
       <div className="flex gap-8">
         <div className="w-9/12">
           <div className="pb-4 flex justify-between items-end">
@@ -46,9 +43,6 @@ export default function Home() {
         </aside>
       </div>
     </div>
-    <footer className="h-24 w-full overflow-hidden bg-green-800 flex items-center justify-center">
-      <p className="text-lg text-green-600 font-extralight uppercase">Created by <a href={yudiProfile} target="_blank" className="underline font-medium hover:text-black">Yudistira</a> & <a href={titikProfile} target="_blank" className="underline font-medium hover:text-black">Titik</a></p>
-    </footer>
     </>
   );
 }
