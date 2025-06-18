@@ -6,17 +6,17 @@ export default function AllManga() {
 				<div className="w-1/4">
 				  <span className="font-medium text-sm text-gray-500 font-mono mb-3 dark:text-neutral-400 w-full inline-block">A</span>
 				  <ol className="list-decimal list-inside text-gray-800 dark:text-white">
-				    <li>naruto shippuden naruto shippuden naruto shippuden naruto shippuden</li>
-				    <li>one piece</li>
-				    <li>crayon shincan</li>
+				    <li><a href="#">naruto shippuden naruto shippuden naruto shippuden naruto shippuden</a></li>
+				    <li><a href="#">one piece</a></li>
+				    <li><a href="#">crayon shincan</a></li>
 				  </ol>
 				</div>
 				<div className="w-1/4">
 				  <span className="font-medium text-sm text-gray-500 font-mono mb-3 dark:text-neutral-400">A</span>
 				  <ol className="list-decimal list-inside text-gray-800 dark:text-white">
-				    <li>naruto shippuden</li>
-				    <li>one piece</li>
-				    <li>crayon shincan</li>
+				    <li><a href="#">naruto shippuden</a></li>
+				    <li><a href="#">one piece</a></li>
+				    <li><a href="#">crayon shincan</a></li>
 				  </ol>
 				</div>
 				<div className="w-1/4">

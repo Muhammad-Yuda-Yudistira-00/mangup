@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/app/components/layout/Navbar"
 // import PrelineScriptWrapper from './components/PrelineScriptWrapper';
 import PrelineInitializer from './components/PrelineInitializer';
+import {Suspense} from 'react'
 
 const yudiProfile = "https://my-profile-ten-kohl.vercel.app/"
 const titikProfile = "https://github.com/titik444/"
@@ -26,9 +27,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
-        <Navbar />
+        <Suspense fallback={<div>Loading...</div>} >
+          <Navbar />
+        </Suspense>
+
         <PrelineInitializer />
         {children}
         <footer className="h-24 w-full overflow-hidden dark:bg-green-800 flex items-center justify-center">

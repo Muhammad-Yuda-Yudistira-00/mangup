@@ -20,7 +20,7 @@ export default function Home() {
   }, [])
   return (
     <>
-    <div className="px-12 pt-12 pb-20 m-auto min-h-screen w-full bg-neutral-200 dark:bg-yellow-800">
+    <div className="px-12 pt-12 pb-20 m-auto min-h-screen w-full bg-neutral-200 dark:bg-yellow-800 min-h-full">
       <div className="flex gap-8">
         <div className="w-9/12">
           <div className="pb-4 flex justify-between items-end">
