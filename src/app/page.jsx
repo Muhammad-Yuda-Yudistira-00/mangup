@@ -9,15 +9,23 @@ import mangaList from "@/app/data/mangaList"
 import popularManga from "@/app/data/popularManga"
 import newManga from "@/app/data/newManga"
 import genreManga from "@/app/data/genreManga"
+import {useDispatch,useSelector} from "react-redux"
+import {fetchLatestUpdates} from "@/lib/redux/slices/mangaSlice"
 
 export default function Home() {
   const [seri, setSeri] = useState(0)
   const perPage = 15
   const totalItem = 153
+  const dispatch = useDispatch()
+  const {latestUpdates, isLoading, error} = useSelector(state => state.manga)
 
   useEffect(() => {
     setSeri(200)
   }, [])
+
+  useEffect(() => {
+    dispatch(fetchLatestUpdates())
+  }, [dispatch])
   return (
     <>
     <div className="px-12 pt-12 pb-20 m-auto min-h-screen w-full bg-neutral-200 dark:bg-yellow-800 min-h-full">
@@ -25,13 +33,15 @@ export default function Home() {
         <div className="w-9/12">
           <div className="pb-4 flex justify-between items-end">
             <h1 className="text-5xl">Latest Manga Updates</h1>
-            <p>Total Items: {totalItem}</p>
+            <p>Total Items: {latestUpdates.length}</p>
           </div>
-          <div className="flex flex-col gap-2">
-            {[...Array(perPage)].map((_, i) => (
-              <Item key={i} manga={mangaList[i]} />
-            ))}
-          </div>
+          {isLoading ? (<div>Loading..</div>) : (
+            <div className="flex flex-col gap-2">
+              {latestUpdates.map((mangaUpdate, i) => (
+                <Item key={i} manga={mangaUpdate} number={i + 1} />
+              ))}
+            </div>
+          )}
           <div className="pt-6">
             <Pagination perPage={perPage} totalItem={totalItem} />
           </div>
