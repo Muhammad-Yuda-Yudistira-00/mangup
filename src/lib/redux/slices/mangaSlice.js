@@ -2,36 +2,25 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
-export const fetchLatestUpdates = createAsyncThunk(
-	"manga/fetchLatestUpdates",
-	async (_, {rejectWithValue}) => {
+export const fetchManga = createAsyncThunk(
+	"manga/fetchManga",
+	async (category, {rejectWithValue}) => {
 		try {
-			const response = await fetch(apiUrl + "/api/manga/latest-updates")
-
+			const response = await fetch(apiUrl + "/api/manga/" + category)
 			if(!response.ok) throw Error(response.statusText)
-
-			return await response.json()
+			const result = await response.json()
+			return {...result, category}
 		} catch (error) {
 			return rejectWithValue(error.message || "Unknown Error")
 		}
 	}
 )
-
-export const fetchMostPopular = createAsyncThunk(
-	"manga/fetchMostPopular",
-	async (_, {rejectWithValue}) => {
-		try {
-
-		} catch (error) {
-			return rejectWithValue(error.message || "Unknown Error")
-		}
-	}
-)
-
 
 const initialState = {
 	latestUpdates: [],
 	mostPopular: [],
+	newManga: [],
+	genres: [],
 	infoMessage: null,
 	isLoading: false,
 	error: null
@@ -42,15 +31,28 @@ export const mangaSlice = createSlice({
 	initialState,
 	extraReducers: (builder) => {
 		builder
-			.addCase(fetchLatestUpdates.pending, (state) => {
+			.addCase(fetchManga.pending, (state) => {
 				state.isLoading = true
 			})
-			.addCase(fetchLatestUpdates.fulfilled, (state, action) => {
-				state.latestUpdates = action.payload.data
+			.addCase(fetchManga.fulfilled, (state, action) => {
+				switch(action.payload.category) {
+					case "latest-updates":
+					state.latestUpdates = action.payload.data
+					break
+					case "most-popular":
+					state.mostPopular = action.payload.data
+					break
+					case "new-manga":
+					state.newManga = action.payload.data
+					break
+				case "genres":
+					state.genres = action.payload.data
+					break
+				}
 				state.infoMessage = action.payload.message
 				state.isLoading = false
 			})
-			.addCase(fetchLatestUpdates.rejected, (state, action) => {
+			.addCase(fetchManga.rejected, (state, action) => {
 				state.error = action.payload || action.error.message
 				state.isLoading = false
 			})

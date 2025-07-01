@@ -7,7 +7,7 @@ dayjs.extend(relativeTime)
 export default function Item({manga, number}) {
 	return(
 		<a href={manga.url} target="_blank" className="bg-white border border-gray-200 rounded-xl shadow-2xs sm:flex dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 dark:hover:bg-red-700 relative">
-			<span>{number}</span>
+			<span className="absolute right-0 bottom-0 p-2 text-sm text-neutral-400">{number}</span>
 			<div className="shrink-0 relative w-full rounded-t-xl overflow-hidden pt-[8%] sm:rounded-s-xl sm:max-w-60 md:rounded-se-none md:max-w-xs">
 			  <img className="size-full absolute top-0 start-0 object-cover" src={manga.thumb} alt={manga.title} />
 			</div>

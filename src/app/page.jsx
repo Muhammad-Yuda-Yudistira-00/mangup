@@ -5,26 +5,25 @@ import Item from "@/app/components/content/Item"
 import Pagination from "@/app/components/content/Pagination"
 import ListGroup from "@/app/components/sidebar/ListGroup"
 import {useState, useEffect} from "react"
-import mangaList from "@/app/data/mangaList"
-import popularManga from "@/app/data/popularManga"
-import newManga from "@/app/data/newManga"
-import genreManga from "@/app/data/genreManga"
 import {useDispatch,useSelector} from "react-redux"
-import {fetchLatestUpdates} from "@/lib/redux/slices/mangaSlice"
+import {fetchManga} from "@/lib/redux/slices/mangaSlice"
 
 export default function Home() {
   const [seri, setSeri] = useState(0)
   const perPage = 15
   const totalItem = 153
   const dispatch = useDispatch()
-  const {latestUpdates, isLoading, error} = useSelector(state => state.manga)
+  const {latestUpdates, mostPopular, newManga, genres, isLoading, error} = useSelector(state => state.manga)
 
   useEffect(() => {
     setSeri(200)
   }, [])
 
   useEffect(() => {
-    dispatch(fetchLatestUpdates())
+    dispatch(fetchManga("latest-updates"))
+    dispatch(fetchManga("most-popular"))
+    dispatch(fetchManga("new-manga"))
+    dispatch(fetchManga("genres"))
   }, [dispatch])
   return (
     <>
@@ -47,9 +46,11 @@ export default function Home() {
           </div>
         </div>
         <aside className="w-3/12 pt-16">
-          <ListGroup manga={popularManga} category="manga" title="Most Poluler" />
+          {isLoading ? (<div>Loading.. </div>) : (
+            <ListGroup manga={mostPopular} category="manga" title="Most Poluler" />
+          )}
           <ListGroup manga={newManga} category="manga" title="New Manga" />
-          <ListGroup manga={genreManga} category="genre" title="Genre" />
+          <ListGroup manga={genres} category="genre" title="Genre" />
         </aside>
       </div>
     </div>
