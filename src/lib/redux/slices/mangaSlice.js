@@ -4,9 +4,14 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 export const fetchManga = createAsyncThunk(
 	"manga/fetchManga",
-	async (category, {rejectWithValue}) => {
+	async ({category, paramGenre = null}, {rejectWithValue}) => {
 		try {
-			const response = await fetch(apiUrl + "/api/manga/" + category)
+			let response
+			if(paramGenre) {
+				response = await fetch(apiUrl + "/api/" + category + "/" + paramGenre)
+			} else {
+				response = await fetch(apiUrl + "/api/manga/" + category)
+			}
 			if(!response.ok) throw Error(response.statusText)
 			const result = await response.json()
 			return {...result, category}
