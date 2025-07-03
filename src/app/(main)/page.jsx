@@ -6,6 +6,7 @@ import Pagination from "@/app/components/content/Pagination"
 import {useState, useEffect} from "react"
 import {useDispatch,useSelector} from "react-redux"
 import {fetchManga} from "@/lib/redux/slices/mangaSlice"
+import {fetchUser} from "@/lib/redux/slices/authSlice"
 
 export default function Home() {
   // const [seri, setSeri] = useState(0)
@@ -14,13 +15,14 @@ export default function Home() {
   const dispatch = useDispatch()
   const {latestUpdates, isLoading, error} = useSelector(state => state.manga)
 
-  // useEffect(() => {
-  //   setSeri(200)
-  // }, [])
-
   useEffect(() => {
     dispatch(fetchManga({category: "latest-updates"}))
+    const token = localStorage.getItem('token') || null
+    if(token) {
+      dispatch(fetchUser())
+    }
   }, [dispatch])
+
   return (
     <div className="w-9/12">
       <div className="pb-4 flex justify-between items-end">

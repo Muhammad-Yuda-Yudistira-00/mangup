@@ -4,20 +4,33 @@ import Button from "@/app/components/layout/Button"
 import {useSearchParams} from "next/navigation"
 import {usePathname} from "next/navigation"
 import { Dropdown, DropdownItem, createTheme, ThemeProvider, Button as Button2 } from "flowbite-react";
+import Link from "next/link"
+import {useSelector,useDispatch} from "react-redux"
+import {logout} from "@/lib/redux/slices/authSlice"
+import {useRouter} from "next/navigation"
+
+const appName = process.env.NEXT_PUBLIC_APP_NAME
 
 export default function Navbar() {
-	const brand = "Mangap"
 	const searchParams = useSearchParams()
 	const pathname = usePathname()
 	const isLogin = searchParams.get("login")
+	const {user} = useSelector(state => state.auth)
+	const dispatch = useDispatch()
+	const router = useRouter()
 
+	const handleLogout = () => {
+		localStorage.removeItem('token')
+		dispatch(logout())
+		router.push("/login")
+	}
 
 	return (
 		<header className="relative flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-3 dark:bg-neutral-800">
 		      <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between">
 		    <div className="flex items-center justify-between">
 		      <a className="flex-none text-xl font-semibold dark:text-white focus:outline-hidden focus:opacity-80" href="/" aria-label="Brand">
-		        MangaP
+		        {appName}
 		      </a>
 		      <div className="sm:hidden">
 		        <button type="button" className="hs-collapse-toggle relative size-9 flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10" id="hs-navbar-example-collapse" aria-expanded="false" aria-controls="hs-navbar-example" aria-label="Toggle navigation" data-hs-collapse="#hs-navbar-example">
@@ -31,19 +44,19 @@ export default function Navbar() {
 		      <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
 		        <a className={pathname === '/' ? "font-medium text-blue-500 focus:outline-hidden" : "font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"} href="/" aria-current="page">Home</a>
 		        <a className={pathname === '/all-manga' ? "font-medium text-blue-500 focus:outline-hidden" : "font-medium text-gray-600 hover:text-gray-400 focus:outline-hidden focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"} href="/all-manga">Search</a>
-		        {!isLogin ? (
+		        {!user.data ? (
 		        	<>
-		        	<button type="button" className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-500 text-gray-500 hover:border-gray-800 hover:text-gray-800 focus:outline-hidden focus:border-gray-800 focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-400 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hover:border-neutral-300">
-							  Login
-							</button>
+		        	<Link href="/login" type="button" className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-500 text-gray-500 hover:border-gray-800 hover:text-gray-800 focus:outline-hidden focus:border-gray-800 focus:text-gray-800 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-400 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hover:border-neutral-300">
+						Sign in
+					</Link>
 							{/*<Button2>Singup</Button2>*/}
 		        	</>
 		        ): (
-		          <Dropdown label="Profile" inline>
+		          <Dropdown label={user.data.name} inline>
 					      <DropdownItem href="/profile/watchlist?login=true" className={pathname === "/profile/watchlist" ? "text-blue-500" : ""}>Watchlist</DropdownItem>
 					      <DropdownItem href="/profile/favourite?login=true" className={pathname === "/profile/favourite" ? "text-blue-500" : ""}>My Favourite</DropdownItem>
 					      <DropdownItem href="/profile/settings?login=true" className={pathname === "/profile/settings" ? "text-blue-500" : ""}>Settings</DropdownItem>
-					      <DropdownItem href="/">Logout</DropdownItem>
+					      <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
 					    </Dropdown>
 		        )}
 		      </div>

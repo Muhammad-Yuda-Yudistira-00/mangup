@@ -8,15 +8,31 @@ export const fetchManga = createAsyncThunk(
 		try {
 			let response
 			if(paramGenre) {
-				response = await fetch(apiUrl + "/api/" + category + "/" + paramGenre)
+				response = await fetch(apiUrl  + category + "/" + paramGenre)
 			} else {
-				response = await fetch(apiUrl + "/api/manga/" + category)
+				response = await fetch(apiUrl + "manga/" + category)
 			}
-			if(!response.ok) throw Error(response.statusText)
+			if(!response.ok) throw new Error(response.statusText)
 			const result = await response.json()
 			return {...result, category}
 		} catch (error) {
 			return rejectWithValue(error.message || "Unknown Error")
+		}
+	}
+)
+
+export const searchManga = createAsyncThunk(
+	"manga/searchManga",
+	async ({q, page = 1}, {rejectWithValue}) => {
+		try {
+			const response = await fetch(apiUrl + `manga/search?q=${q}&page=${page}`)
+			if(!response.ok) {
+				const resultError = await response.json()
+				throw new Error(resultError.message)
+			}
+			return await response.json()
+		} catch (error) {
+			return error(error.message || "Unknown Error")
 		}
 	}
 )
@@ -26,6 +42,8 @@ const initialState = {
 	mostPopular: [],
 	newManga: [],
 	genres: [],
+	mangaSearch: null,
+	pagination: null,
 	infoMessage: null,
 	isLoading: false,
 	error: null
@@ -50,7 +68,7 @@ export const mangaSlice = createSlice({
 					case "new-manga":
 					state.newManga = action.payload.data
 					break
-				case "genres":
+					case "genres":
 					state.genres = action.payload.data
 					break
 				}
@@ -58,6 +76,18 @@ export const mangaSlice = createSlice({
 				state.isLoading = false
 			})
 			.addCase(fetchManga.rejected, (state, action) => {
+				state.error = action.payload || action.error.message
+				state.isLoading = false
+			})
+			.addCase(searchManga.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(searchManga.fulfilled, (state,action) => {
+				state.mangaSearch = action.payload.data
+				state.infoMessage = action.payload.message
+				state.pagination = action.payload.pagination
+			})
+			.addCase(searchManga.rejected, (state, action) => {
 				state.error = action.payload || action.error.message
 				state.isLoading = false
 			})

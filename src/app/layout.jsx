@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/layout/Navbar"
-import Sidebar from "@/app/components/layout/Sidebar"
 // import PrelineScriptWrapper from './components/PrelineScriptWrapper';
 import PrelineInitializer from './components/PrelineInitializer';
 import {Suspense} from 'react'
@@ -38,15 +37,8 @@ export default function RootLayout({ children }) {
           </Suspense>
 
           <PrelineInitializer />
-          
-          <div className="px-12 pt-12 pb-20 m-auto min-h-screen w-full bg-neutral-200 dark:bg-yellow-800 min-h-full">
-            <div className="flex gap-8">
 
-              {children}
-              <Sidebar />
-
-            </div>
-          </div>
+          {children}
 
           <footer className="h-24 w-full overflow-hidden dark:bg-green-800 flex items-center justify-center">
             <p className="text-lg text-green-600 font-extralight uppercase">Created by <a href={yudiProfile} target="_blank" className="underline font-medium hover:text-black">Yudistira</a> & <a href={titikProfile} target="_blank" className="underline font-medium hover:text-black">Titik</a></p>
