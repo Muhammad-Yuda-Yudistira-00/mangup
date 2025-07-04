@@ -19,7 +19,7 @@ export default function AllManga() {
 			<h1 className="text-center text-6xl pb-8">Search Manga</h1>
 			<div className="flex flex-wrap justify-center gap-y-4">
 				<div className="w-1/4">
-					<small>result: {pagination.perPage}</small>
+					<small>result: {pagination && pagination.perPage}</small>
 				  <form onSubmit={e => handleSearch(e)} >
 				    <label htmlFor="hs-trailing-button-add-on-with-icon" className="sr-only">Label</label>
 				    <div className="flex rounded-lg">

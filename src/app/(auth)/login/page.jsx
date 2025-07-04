@@ -15,9 +15,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-
     const resultAction = await dispatch(fetchLogin({email,password}))
-
     if(fetchLogin.fulfilled.match(resultAction)) {
       localStorage.setItem('token', resultAction.payload.data.token)
       push('/')
